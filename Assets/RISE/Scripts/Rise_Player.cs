@@ -21,13 +21,13 @@ public class Player : MonoBehaviour
 
     Rigidbody P_Rigid;
     Animator P_Animator;
-    Weapon Eq_Weapon;
+    Player_Weapon Eq_Weapon;
 
     private void Awake()
     {
         P_Animator = GetComponent<Animator>();
         P_Rigid = GetComponentInChildren<Rigidbody>();
-        Eq_Weapon = GetComponentInChildren<Weapon>();
+        Eq_Weapon = GetComponentInChildren<Player_Weapon>();
     }
 
     void GetInput()

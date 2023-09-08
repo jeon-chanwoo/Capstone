@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mimic : Monster
+public class Mimic : Rise_Monster
 {
     private void Update()
     {

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 
 using UnityEngine;
 
-public class Beholder : Monster
+public class Beholder : Rise_Monster
 {
     private void Update()
     {

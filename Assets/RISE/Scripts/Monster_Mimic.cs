@@ -90,7 +90,7 @@ public class Monster_Mimic : MonoBehaviour
         // 몬스터 앞 방향의 공격 지역 계산 - 해당 지역에 플레이어 들어올 경우 애니메이션 재생(공격 딜레이가 아닐 경우) - 콜라이더 온 - 데미지 계산 - 콜라이더 오프
         if (other.tag == "THS")
         {
-            Weapon weapon = other.GetComponent<Weapon>();
+            Player_Weapon weapon = other.GetComponent<Player_Weapon>();
             M_CurHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
             StartCoroutine(OnHit(reactVec));

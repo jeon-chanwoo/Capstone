@@ -9,7 +9,7 @@ using UnityEngine.AI;
 /*
  *가속도를 높게 속도를 낮게
  */
-public abstract class Monster : MonoBehaviour
+public abstract class Rise_Monster : MonoBehaviour
 {
     public int Monster_Name;    // 몬스터 종류
     public int Monster_MaxHealth;   // 몬스터 최대 체력
@@ -155,7 +155,7 @@ public abstract class Monster : MonoBehaviour
         if(other.gameObject.layer == 7) // layer 7은 player weapon 이다. 
         {
             // 무기 태그를 활용해서 공격 구분
-            Weapon P_weapon = other.GetComponent<Weapon>();
+            Player_Weapon P_weapon = other.GetComponent<Player_Weapon>();
             Monster_CurHealth -= P_weapon.damage;
             StartCoroutine(OnHit());
         }
