@@ -7,6 +7,7 @@ public class MiniGameTwo : MonoBehaviour
 {
     [Tooltip("Rotation sound")]
     [SerializeField] private AudioClip rotationSound;
+    [SerializeField] private bool triggerOpenDoor;
 
     public bool gameClear = false;
     private AudioSource _rotationAudioSource;
@@ -42,12 +43,17 @@ public class MiniGameTwo : MonoBehaviour
             Transform gameClearTextTransform = Camera.main.transform.Find("UI/MiniGameClear");
             Text _text = gameClearTextTransform.GetComponent<Text>();
             _text.CrossFadeAlpha(1, 0, false);
-            _text.CrossFadeAlpha(0, 5f, false);
+            _text.CrossFadeAlpha(0, 2f, false);
 
             BoxCollider boxCollider = _wall.GetComponent<BoxCollider>();
             if(boxCollider != null)
             {
                 boxCollider.enabled = false;
+            }
+
+            if(triggerOpenDoor)
+            {
+                FindFirstObjectByType<Map1BossRoom>().SpawnAndPlayCinematic();
             }
         }
     }

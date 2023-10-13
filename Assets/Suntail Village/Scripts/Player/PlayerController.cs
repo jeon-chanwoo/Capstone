@@ -16,6 +16,87 @@ using UnityEngine.UI;
 with footstep system based on check the current texture of the component*/
 namespace Suntail
 {
+    public struct UserInput
+    {
+        public bool attack;
+
+        public bool forward;
+        public bool backward;
+        public bool left;
+        public bool right;
+        public bool jump;
+        public bool run;
+
+        public bool skill1Down;
+        public bool skill2;
+        public bool skill2Up;
+        public bool skill3Down;
+        public bool skill4Down;
+
+        public bool minimap;
+        public float zoomValue;
+
+        public float horizontalValue;
+        public float verticalValue;
+
+        public float xAxis;
+        public float yAxis;
+
+        public void Reset()
+        {
+            attack = false;
+
+            forward = false;
+            backward = false;
+            left = false;
+            right = false;
+            jump = false;
+            run = false;
+
+            skill1Down = false;
+            skill2 = false;
+            skill2Up = false;
+            skill3Down = false;
+            skill4Down = false;
+
+            minimap = false;
+            zoomValue = 0f;
+
+            horizontalValue = 0f;
+            verticalValue = 0f;
+
+            xAxis = 0f;
+            yAxis = 0f;
+        }
+
+        public void Pool()
+        {
+            attack = Input.GetMouseButtonDown(0);
+
+            forward = Input.GetKey(KeyCode.W);
+            backward = Input.GetKey(KeyCode.S);
+            left = Input.GetKey(KeyCode.A);
+            right = Input.GetKey(KeyCode.D);
+            jump = Input.GetKeyDown(KeyCode.Space);
+            run = Input.GetKey(KeyCode.LeftShift);
+
+            skill1Down = Input.GetKeyDown(KeyCode.Alpha1);
+            skill2 = Input.GetKey(KeyCode.Alpha2);
+            skill2Up = Input.GetKeyUp(KeyCode.Alpha2);
+            skill3Down = Input.GetKeyDown(KeyCode.Alpha3);
+            skill4Down = Input.GetKeyDown(KeyCode.Alpha4);
+
+            minimap = Input.GetKey(KeyCode.LeftControl);
+            zoomValue = Input.GetAxis("Mouse ScrollWheel");
+
+            horizontalValue = Input.GetAxis("Horizontal");
+            verticalValue = Input.GetAxis("Vertical");
+
+            xAxis = Input.GetAxis("Mouse X");
+            yAxis = Input.GetAxis("Mouse Y");
+        }
+    }
+
     public class PlayerController : MonoBehaviour
     {
         #region 정의부
@@ -27,6 +108,9 @@ namespace Suntail
             public Texture2D[] groundTextures;
             public AudioClip[] footstepSounds;
         }
+
+        [SerializeField] private bool _isContinuousPlay = false;
+
         #region state
         [Header("Stats")]
         [SerializeField] public float _hp; //현재체력
@@ -122,9 +206,9 @@ namespace Suntail
         [Header("Movement")]
         [SerializeField] public GameObject direction;//바라보는 방향
         [SerializeField] private float gravity = -9.81f;
-        [Header("Keybinds")]
-        [SerializeField] private KeyCode jumpKey = KeyCode.Space;
-        [SerializeField] private KeyCode runKey = KeyCode.LeftShift;
+        //[Header("Keybinds")]
+        //[SerializeField] private KeyCode jumpKey = KeyCode.Space;
+        //[SerializeField] private KeyCode runKey = KeyCode.LeftShift;
 
         [Header("Footsteps")]
         [Tooltip("Footstep source")]
@@ -164,12 +248,12 @@ namespace Suntail
         [SerializeField] private float mouseVerticalClamp;
         [SerializeField] private float scrollSpeed = 2000.0f;
         private int escKeyPressCount = 0;
-        private bool isLeftControlPressed = false;
+        //private bool isLeftControlPressed = false;
         #endregion
         #region variables
         //Private movement variables
-        private float _horizontalMovement;
-        private float _verticalMovement;
+        //private float _horizontalMovement;
+        //private float _verticalMovement;
         private float _currentSpeed;
         private Vector3 _moveDirection;
         private Vector3 _velocity;
@@ -181,8 +265,8 @@ namespace Suntail
 
         //Private mouselook variables
         private float _verticalRotation;
-        private float _yAxis;
-        private float _xAxis;
+        //private float _yAxis;
+        //private float _xAxis;
         private bool _activeRotation;
 
         //Private footstep system variables
@@ -196,6 +280,10 @@ namespace Suntail
 
         private GameObject previousHitObject;
         private int previousLayer;
+
+        public bool isInteractable = true;
+
+        private UserInput _input;
         #endregion
         #endregion
         private void Awake()
@@ -205,6 +293,21 @@ namespace Suntail
             GetTerrainData();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+
+        private void Start()
+        {
+            lastInputTime = Time.time;
+            lastAnimationSwitchTime = Time.time;
+
+            var hp = PlayerPrefs.GetFloat("hp", _maxHP);
+            var mp = PlayerPrefs.GetFloat("mp", _maxMP);
+
+            PlayerPrefs.DeleteKey("hp");
+            PlayerPrefs.DeleteKey("mp");
+
+            _hp = hp;
+            _mp = mp;
         }
 
         //Getting all terrain data for footstep system
@@ -217,16 +320,13 @@ namespace Suntail
                 _terrainLayers = _terrain.terrainData.terrainLayers;
             }
         }
-        private void Start()
-        {
-            lastInputTime = Time.time;
-            lastAnimationSwitchTime = Time.time;
-        }
 
         private void Update()
         {
             if (!isGameOver)
             {
+                CheckInput();
+
                 #region Attack
                 Attack();
                 Skill();
@@ -244,7 +344,6 @@ namespace Suntail
                 #endregion
                 #region Camera
                 MouseLook();
-                CheckInput();
                 Zoom();
                 #endregion
             }
@@ -252,7 +351,7 @@ namespace Suntail
         #region attack
         private void Attack()
         {
-            if (Input.GetMouseButtonDown(0) && !isAttackInputDisabled && _characterController.isGrounded && !_isAnimatingSkill && !isAnimation)
+            if (_input.attack && !isAttackInputDisabled && _characterController.isGrounded && !_isAnimatingSkill && !isAnimation)
             {
                 if (attackCount == 0)
                 {
@@ -261,6 +360,7 @@ namespace Suntail
                          _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f && !isAttackInputDisabled)
                     {
                         _animator.Play("Attack1");
+
                         CheckMonsterCollision();
                         attackCount++;
                         StartCoroutine(DisableInputForDuration(attackCoolDown));
@@ -268,6 +368,7 @@ namespace Suntail
                     else
                     {
                         _animator.Play("Attack1");
+
                         CheckMonsterCollision();
                         attackCount++;
                         StartCoroutine(DisableInputForDuration(attackCoolDown));
@@ -279,9 +380,10 @@ namespace Suntail
                          _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
                          _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f && !isAttackInputDisabled)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (_input.attack)
                     {
                         _animator.Play("Attack2");
+
                         CheckMonsterCollision();
                         attackCount++;
                         StartCoroutine(DisableInputForDuration(attackCoolDown));
@@ -292,9 +394,10 @@ namespace Suntail
                          _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
                          _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f && !isAttackInputDisabled)
                 {
-                    if (Input.GetMouseButton(0))
+                    if (_input.attack)
                     {
                         _animator.Play("Attack3");
+
                         CheckMonsterCollision();
                         attackCount = 0;
                         isAttackInputDisabled = true;
@@ -304,6 +407,14 @@ namespace Suntail
                 return;
             }
         }
+
+        public void PlayNormalAttackEffect(int effectIndex)
+        {
+            var effect = EffectPoolManager.instance.Get("Normal Attack " + effectIndex);
+            effect.Play();
+        }
+
+
         private IEnumerator DisableInputForDuration(float delay)
         {
 
@@ -335,23 +446,10 @@ namespace Suntail
                 // 무기의 콜라이더와 몬스터의 콜라이더가 닿았을 때
                 if (hit.collider.CompareTag("Monster"))
                 {
-                    Monster monster = hit.collider.GetComponent<Monster>();
-                    MonsterTwo monsterTwo = hit.collider.GetComponent<MonsterTwo>();
-                    MonsterThree monsterThree = hit.collider.GetComponent<MonsterThree>();
-                    if (monster != null)
+                    var monster = hit.collider.GetComponent<MonsterBase>();
+                    if(monster != null)
                     {
-                        // 무기와 몬스터 충돌 시 몬스터의 체력 감소
-                        monster.TakeDamage(_atkPower); // 무기의 공격력만큼 체력 감소시키도록 수정
-                    }
-                    if (monsterTwo != null)
-                    {
-                        // 무기와 몬스터 충돌 시 몬스터의 체력 감소
-                        monsterTwo.TakeDamage(_atkPower); // 무기의 공격력만큼 체력 감소시키도록 수정
-                    }
-                    if (monsterThree != null)
-                    {
-                        // 무기와 몬스터 충돌 시 몬스터의 체력 감소
-                        monsterThree.TakeDamage(_atkPower); // 무기의 공격력만큼 체력 감소시키도록 수정
+                        monster.TakeDamage(_atkPower);
                     }
                 }
             }
@@ -366,14 +464,15 @@ namespace Suntail
         private void Skill()
         {
             #region 스킬1
-            if (Input.GetKeyDown(KeyCode.Alpha1) && _characterController.isGrounded && _mp >= _skillOneMp && !isAnimation)
+            if (_input.skill1Down && _characterController.isGrounded && _mp >= _skillOneMp && !isAnimation)
             {
                 if (_skillOneIsClicked && !_isSkillOneCoolDown && !_isAnimatingSkill)
                 {
                     _mp -= _skillOneMp;
                     _isAnimatingSkill = true;
+
                     _animator.Play("PowerAttack");
-                    CheckMonsterCollision(_skillOnePower);
+                    //CheckMonsterCollision(_skillOnePower);
                     walkSpeed = 0.0f;
                     _isSkillOneCoolDown = true;
                     _skillOneLeft = _skillOneCool;
@@ -415,7 +514,7 @@ namespace Suntail
             }
             #endregion
             #region 스킬2
-            if (Input.GetKey(KeyCode.Alpha2) && _characterController.isGrounded && _mp >= _skillTwoMp && !isAnimation)
+            if (_input.skill2 && _characterController.isGrounded && _mp >= _skillTwoMp && !isAnimation)
             {
                 if (!_isDefendSound)
                 {
@@ -433,7 +532,7 @@ namespace Suntail
                 }
 
             }
-            if (Input.GetKeyUp(KeyCode.Alpha2) && _skillTwoLeft == 0 && _animator.GetCurrentAnimatorStateInfo(0).IsName("Defend"))
+            if (_input.skill2Up && _skillTwoLeft == 0 && _animator.GetCurrentAnimatorStateInfo(0).IsName("Defend"))
             {
                 _isDefendSound = false;
                 walkSpeed = 4.0f;
@@ -470,7 +569,7 @@ namespace Suntail
             }
             #endregion
             #region 스킬3
-            if (Input.GetKeyDown(KeyCode.Alpha3) && _characterController.isGrounded && _mp >= _skillThreeMp && !isAnimation)
+            if (_input.skill3Down && _characterController.isGrounded && _mp >= _skillThreeMp && !isAnimation)
             {
                 if (_skillThreeIsClicked && !_isSkillThreeCoolDown && !_isAnimatingSkill)
                 {
@@ -523,7 +622,7 @@ namespace Suntail
             }
             #endregion
             #region 스킬4
-            if (Input.GetKeyDown(KeyCode.Alpha4) && _characterController.isGrounded && !isAnimation)
+            if (_input.skill4Down && _characterController.isGrounded && !isAnimation)
             {
                 if (_skillFourIsClicked && !_isSkillFourCoolDown && !_isAnimatingSkill)
                 {
@@ -578,6 +677,18 @@ namespace Suntail
             #endregion
 
         }
+
+        public void PlaySkill1Effect()
+        {
+            var effectPosition = transform.position + direction.transform.forward * 2.5f;
+
+            var effect = EffectPoolManager.instance.Get("Skill 1");
+            effect.transform.position = effectPosition;
+            effect.Play();
+
+            effect.GetComponent<ColliderDamage>().SetDamage(_skillOnePower);
+        }
+
         private IEnumerator DisableSkillMove(float delay, Action onComplete)
         {
             yield return new WaitForSeconds(delay);
@@ -586,7 +697,7 @@ namespace Suntail
         private void CheckMonsterCollision(float _skillOnePower)
         {
             Collider weaponCollider = currentWeapon.GetComponent<Collider>();
-
+            
             // currentWeapon의 콜라이더가 없을 경우 처리
             if (weaponCollider == null)
             {
@@ -646,7 +757,7 @@ namespace Suntail
                 _lastDamageTime = Time.time;//데미지 입은 시간
 
                 float _totalDamage = damageAmount + _debuff;
-                Debug.Log(_totalDamage);
+                Debug.Log(_totalDamage + "(" + damageAmount + ", " + _debuff + ")");
                 if (_defense >= _totalDamage)
                 {
                     return;
@@ -656,6 +767,9 @@ namespace Suntail
                     _hp -= _totalDamage - _defense;
                 }
             }
+
+            _hp = Mathf.Max(0, _hp);
+            //_hp = _maxHP;
         }
         private void DebuffTimeCheck()
         {
@@ -715,8 +829,13 @@ namespace Suntail
         {
             if(_hp<=0 && !isGameOver)
             {
+                GetComponent<AudioSource>().enabled = false;
+
                 isGameOver = true;
                 _animator.Play("Die");
+
+                
+
                 StartCoroutine(gameOver());
             }
         }
@@ -746,38 +865,38 @@ namespace Suntail
                     _velocity.y = -2f;
                 }
 
-                _horizontalMovement = Input.GetAxis("Horizontal");
-                _verticalMovement = Input.GetAxis("Vertical");
+                //_horizontalMovement = Input.GetAxis("Horizontal");
+                //_verticalMovement = Input.GetAxis("Vertical");
                 #region 이동방향
-                if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+                if (_input.forward && _input.right)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 45, 0));
                 }
-                else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+                else if (_input.backward && _input.right)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 135, 0));
                 }
-                else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+                else if (_input.backward && _input.left)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 225, 0));
                 }
-                else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+                else if (_input.forward && _input.left)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 315, 0));
                 }
-                else if (Input.GetKey(KeyCode.W))
+                else if (_input.forward)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 0, 0));
                 }
-                else if (Input.GetKey(KeyCode.D))
+                else if (_input.right)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 90, 0));
                 }
-                else if (Input.GetKey(KeyCode.S))
+                else if (_input.backward)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 180, 0));
                 }
-                else if (Input.GetKey(KeyCode.A))
+                else if (_input.left)
                 {
                     direction.gameObject.transform.rotation = this.transform.rotation * Quaternion.Euler(new Vector3(0, 270, 0));
                 }
@@ -789,9 +908,9 @@ namespace Suntail
                 #endregion
 
 
-                _moveDirection = transform.forward * _verticalMovement + transform.right * _horizontalMovement;
+                _moveDirection = transform.forward * _input.verticalValue + transform.right * _input.horizontalValue;
 
-                _isRunning = Input.GetKey(runKey);
+                _isRunning = _input.run;
                 _currentSpeed = walkSpeed * (_isRunning ? runMultiplier : 1f);
 
                 _characterController.Move(_moveDirection * _currentSpeed * Time.deltaTime);
@@ -807,7 +926,7 @@ namespace Suntail
                             (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3"))) &&
                                 _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
                                     _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.0f) &&
-                                        !_isJumping && Input.GetKeyDown(jumpKey) && _characterController.isGrounded)
+                                        !_isJumping && _input.jump && _characterController.isGrounded)
             {
                 _velocity.y = Mathf.Sqrt(jumpForce * 2f * -gravity);
                 _animator.SetBool("jump", true);
@@ -915,7 +1034,7 @@ namespace Suntail
                     }
                 }
                 _animator.SetFloat("speed", _currentSpeed / 4.0f);
-                if (_characterController.isGrounded && (_horizontalMovement != 0 || _verticalMovement != 0))
+                if (_characterController.isGrounded && (_input.horizontalValue != 0 || _input.verticalValue != 0))
                 {
                     float currentFootstepRate = (_isRunning ? runningFootstepRate : footstepRate);
 
@@ -937,6 +1056,7 @@ namespace Suntail
                 {
                     _animator.SetBool("jump", false);
                 }
+                
                 _characterController.Move(_velocity * Time.fixedDeltaTime);
             }
         }
@@ -944,8 +1064,8 @@ namespace Suntail
         #region camera
         private void MouseLook()
         {   
-            _xAxis = Input.GetAxis("Mouse X"); 
-            _yAxis = Input.GetAxis("Mouse Y");
+            //_xAxis = Input.GetAxis("Mouse X"); 
+            //_yAxis = Input.GetAxis("Mouse Y");
 
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 escKeyPressCount++;
@@ -964,24 +1084,31 @@ namespace Suntail
             }
             else
             {
-                _verticalRotation += -_yAxis * mouseSensivity;
+                _verticalRotation += -_input.yAxis * mouseSensivity;
                 _verticalRotation = Mathf.Clamp(_verticalRotation, -mouseVerticalClamp, mouseVerticalClamp);
                 playerCamera.transform.localRotation = Quaternion.Euler(_verticalRotation, 0, 0);
-                transform.rotation *= Quaternion.Euler(0, _xAxis * mouseSensivity, 0);
+                transform.rotation *= Quaternion.Euler(0, _input.xAxis * mouseSensivity, 0);
             }
             
         }
         private void CheckInput()
         {
-            isLeftControlPressed = Input.GetKey(KeyCode.LeftControl);
+            if(isInteractable)
+            {
+                _input.Pool();
+            }
+            else
+            {
+                _input.Reset();
+            }
         }
         private void Zoom()
         {
-            if (!isLeftControlPressed)
+            if (!_input.minimap)
             {
                 if (playerCamera.transform.localPosition.y >= 0.6f && playerCamera.transform.localPosition.y <= 8.0f)
                 {
-                    float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
+                    float scrollWheel = _input.zoomValue;
                     Vector3 cameraDirection = this.transform.localRotation * Vector3.forward + this.transform.localRotation * Vector3.down;
                     playerCamera.transform.position += cameraDirection * Time.deltaTime * scrollWheel * scrollSpeed;
                 }

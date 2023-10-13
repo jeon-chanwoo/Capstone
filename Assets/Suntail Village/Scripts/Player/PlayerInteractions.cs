@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
@@ -84,6 +85,20 @@ namespace Suntail
         //Determine which object we are now looking at, depending on the tag and component
         private void Interactions()
         {
+            if(Input.GetKeyDown(interactionKey))
+            {
+                var ray = new Ray(transform.position + _character.transform.forward, _character.transform.forward);
+                var hits = Physics.SphereCastAll(ray, 1f, float.Epsilon);
+                foreach(var hit in hits)
+                {
+                    var interaction = hit.collider.GetComponent<InteractionTrigger>();
+                    if(interaction != null)
+                    {
+                        interaction.FireTrigger();
+                        break;
+                    }
+                }
+            }
 
             Vector3 boxCastOrigin = _character.transform.position + new Vector3(0, 1.0f, 0);
             if (Physics.BoxCast(boxCastOrigin, _character.transform.lossyScale * 0.5f, _character.transform.forward, out RaycastHit interactionHit, _character.transform.rotation, interactionDistance, interactionLayer))

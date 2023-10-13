@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Monster : MonoBehaviour
+public class Monster : MonsterBase
 {
     public float currentHealth;
     public float maxHealth;
@@ -22,6 +22,10 @@ public class Monster : MonoBehaviour
     public AudioClip _die;
     public AudioClip _run;
 
+    public override bool isDead => currentHealth <= 0;
+    public override float maxHp => maxHealth;
+    public override float currentHp => currentHealth;
+
 
     enum State
     {
@@ -37,7 +41,7 @@ public class Monster : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        SetHealth(200.0f);
+        SetHealth(maxHealth);
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
         backGroundMusicScript = GameObject.Find("Controller Camera").GetComponent<BackGroundMusic>();
@@ -86,58 +90,119 @@ public class Monster : MonoBehaviour
     {
         agent.speed = moveSpeed;
         target = GameObject.Find("Controller").transform;
-        float distance = Vector3.Distance(transform.position, target.transform.position);
-        if (distance > transAttack)
-        {
 
-            if (target != null)
+        if(!IsAttackable())
+        {
+            if(target != null)
             {
                 state = State.Tracking;
                 anim.SetTrigger("run");
             }
         }
-        else if (distance <= transAttack)
+        else
         {
             anim.ResetTrigger("run");
             state = State.Attack;
             ChooseRandomAttack();
         }
+        
     }
 
     private void UpdateTracking()
     {
-        float distance = Vector3.Distance(transform.position, target.transform.position);
-        if (distance <= transAttack)
+        if(IsAttackable())
         {
+            agent.updatePosition = false;
+            agent.updateRotation = false;
+
             anim.ResetTrigger("run");
             state = State.Attack;
             ChooseRandomAttack();
-        }
-        else if (distance > transAttack)
-        {
+
             anim.SetTrigger("run");
-            agent.speed = moveSpeed;
-            agent.destination = target.transform.position;
         }
-
-
+        else
+        {
+            if(!IsAttackablePosition())
+            {
+                anim.SetTrigger("run");
+                agent.speed = moveSpeed;
+                agent.destination = target.transform.position;
+            }
+            else
+            {
+                transform.Rotate(Vector3.up, GetRotationToDestination() * agent.angularSpeed * Time.deltaTime * 0.02f);
+            }
+        }
     }
+
+    private float GetRotationToDestination()
+    {
+        var forward = transform.forward;
+        var direction = (target.transform.position - transform.position);
+
+        forward.y = 0f;
+        direction.y = 0f;
+
+        forward.Normalize();
+        direction.Normalize();
+
+        var angleDiff = Quaternion.FromToRotation(forward, direction).eulerAngles.y;
+        if(angleDiff > 180)
+            angleDiff = angleDiff - 360f;
+
+        return angleDiff;
+    }
+
     private void UpdateAttack()
     {
         agent.speed = 0;
-        float distance = Vector3.Distance(transform.position, target.transform.position);
 
-        if (distance > transAttack)
+        if(!IsAttackable())
         {
             state = State.Tracking;
             anim.SetTrigger("run");
         }
-        else if (distance <= transAttack)
+        else
         {
+            agent.updatePosition = false;
+            agent.updateRotation = false;
+
             anim.ResetTrigger("run");
             ChooseRandomAttack();
         }
     }
+
+    private bool IsAttackable()
+    {
+        return IsAttackablePosition() && IsAttackableRotation();
+    }
+
+    private bool IsAttackablePosition()
+    {
+        float distance = Vector3.Distance(transform.position, target.transform.position) - 0.1f;
+
+        return distance <= transAttack;
+    }
+
+    private bool IsAttackableRotation()
+    {
+        var forward = transform.forward;
+        var direction = (target.transform.position - transform.position);
+
+        forward.y = 0f;
+        direction.y = 0f;
+
+        forward.Normalize();
+        direction.Normalize();
+
+        var angleDiff = Quaternion.FromToRotation(forward, direction).eulerAngles.y;
+        if(angleDiff > 180)
+            angleDiff = angleDiff - 360f;
+
+        return Mathf.Abs(angleDiff) <= 10f;
+    }
+
     private void UpdateGetHit()
     {
         anim.ResetTrigger("run");
@@ -171,6 +236,9 @@ public class Monster : MonoBehaviour
     {
         anim.ResetTrigger("run");
         anim.Play("Die");
+
+        OnBossDead?.Invoke(this);
+
         Transform stageClearTextTransform = Camera.main.transform.Find("UI/StageClear");
         Text _text = stageClearTextTransform.GetComponent<Text>();
         _text.gameObject.SetActive(true);
@@ -280,15 +348,16 @@ public class Monster : MonoBehaviour
             animator.SetTrigger("open");
         }
     }
-
+     
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
         OpenDoor();
         Destroy(agent.gameObject);
     }
     // 데미지를 입었을 때 호출되는 메서드
-    public void TakeDamage(float damageAmount)
+    public override void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
         if (currentHealth <= 0)

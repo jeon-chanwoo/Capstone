@@ -22,7 +22,8 @@ namespace Suntail
             _mpSlider1.minValue = 0;
 
             // PlayerController 컴포넌트 할당
-            _stats1 = GameObject.Find("Controller").GetComponent<PlayerController>();
+            //_stats1 = GameObject.Find("Controller").GetComponent<PlayerController>();
+            _stats1 = GameObject.FindFirstObjectByType<PlayerController>();
         }
 
         private void UpdateUI()
