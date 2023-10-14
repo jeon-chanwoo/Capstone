@@ -51,9 +51,11 @@ public class GameOne : MonoBehaviour
                 Transform gameClearTextTransform = Camera.main.transform.Find("UI/MiniGameClear");
                 Text _text = gameClearTextTransform.GetComponent<Text>();
                 _text.gameObject.SetActive(true);
-                _text.CrossFadeAlpha(0, 5f, false);
+                _text.CrossFadeAlpha(0, 2f, false);
                 DeactivateBrokeColliders();
                 isGameCleared = true;
+
+                FindFirstObjectByType<Map1BossRoom>().SpawnAndPlayCinematic();
             }
             else if (currentStepGameScaffoldCount < stepGameScaffoldCount && !hasDecreasedScaffoldCount)
             {

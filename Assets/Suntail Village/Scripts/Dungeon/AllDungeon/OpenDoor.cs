@@ -38,11 +38,11 @@ public class OpenDoor : MonoBehaviour
             backGroundMusic.StartEnterMusic();
             StartCoroutine(TransitionAnimation());
             ForceMove();
-            if (otherObjectAnimator1 != null && otherObjectAnimator2 != null && otherObjectAnimator3 != null)
+            if(otherObjectAnimator1 != null/* && otherObjectAnimator2 != null && otherObjectAnimator3 != null*/)
             {
                 otherObjectAnimator1.SetTrigger("open");
-                otherObjectAnimator2.SetTrigger("open");
-                otherObjectAnimator3.SetTrigger("open");
+                //otherObjectAnimator2.SetTrigger("open");
+                //otherObjectAnimator3.SetTrigger("open");
             }
 
 

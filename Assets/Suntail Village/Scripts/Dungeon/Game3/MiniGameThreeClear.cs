@@ -19,7 +19,9 @@ public class MiniGameThreeClear : MonoBehaviour
             Transform gameClearTextTransform = Camera.main.transform.Find("UI/MiniGameClear");
             Text _text = gameClearTextTransform.GetComponent<Text>();
             _text.CrossFadeAlpha(1, 0, false);
-            _text.CrossFadeAlpha(0,5.0f, false);
+            _text.CrossFadeAlpha(0, 2.0f, false);
+
+            FindFirstObjectByType<Map1BossRoom>().SpawnAndPlayCinematic();
         }
     }
 }

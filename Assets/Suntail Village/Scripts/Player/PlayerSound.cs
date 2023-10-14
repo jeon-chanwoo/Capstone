@@ -24,6 +24,9 @@ public class PlayerSound : MonoBehaviour
 
     public void Sound(string animationName)
     {
+        if(audioSource.enabled == false)
+            return;
+
         if (animationName == "WAIT1")
         {
             audioSource.PlayOneShot(waitSound1);

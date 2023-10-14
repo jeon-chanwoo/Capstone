@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 
-public class MonsterThree : MonoBehaviour
+public class MonsterThree : MonsterBase
 {
     public float currentHealth;
     public float maxHealth;
@@ -19,6 +19,9 @@ public class MonsterThree : MonoBehaviour
     [SerializeField ]private AudioClip _magma;
     private PlayerController playerController;
 
+    public override bool isDead => currentHealth <= 0;
+    public override float maxHp => maxHealth;
+    public override float currentHp => currentHealth;
 
     private void Start()
     {
@@ -72,6 +75,9 @@ public class MonsterThree : MonoBehaviour
     {
         Transform stageClearTextTransform = Camera.main.transform.Find("UI/StageClear");
         Text _text = stageClearTextTransform.GetComponent<Text>();
+
+        OnBossDead?.Invoke(this);
+
         _text.gameObject.SetActive(true);
         _text.CrossFadeAlpha(1, 0, false);
         _text.CrossFadeAlpha(0, 5f, false);
@@ -83,7 +89,7 @@ public class MonsterThree : MonoBehaviour
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        OpenDoor();
+
         Destroy(agent.gameObject);
     }
     public void OpenDoor()
@@ -96,7 +102,7 @@ public class MonsterThree : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damageAmount)
+    public override void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
         if (currentHealth <= 0)

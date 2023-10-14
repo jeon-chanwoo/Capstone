@@ -3,9 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using UnityEngine.VFX;
 
-public class MonsterTwo : MonoBehaviour
+public class MonsterTwo : MonsterBase
 {
     public float currentHealth;
     public float maxHealth;
@@ -30,6 +31,11 @@ public class MonsterTwo : MonoBehaviour
     public bool fourthDeathAttack = false;
     public ParticleSystem _meteor;
     float desireVolum = 0.5f;
+
+    public override bool isDead => currentHealth <= 0;
+    public override float maxHp => maxHealth;
+    public override float currentHp => currentHealth;
+
     enum State
     {
         Idle,
@@ -44,7 +50,7 @@ public class MonsterTwo : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        SetHealth(300.0f);
+        SetHealth(maxHealth);
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
         backGroundMusicScript = GameObject.Find("Controller Camera").GetComponent<BackGroundMusic>();
@@ -99,10 +105,10 @@ public class MonsterTwo : MonoBehaviour
         agent.speed = moveSpeed;
         target = GameObject.Find("Controller").transform;
         float distance = Vector3.Distance(transform.position, target.transform.position);
-        if (distance > transAttack)
-        {
 
-            if (target != null)
+        if(!IsAttackable())
+        {
+            if(target != null)
             {
                 state = State.Tracking;
                 anim.SetTrigger("run");
@@ -117,39 +123,97 @@ public class MonsterTwo : MonoBehaviour
     }
     private void UpdateTracking()
     {
-        
-            float distance = Vector3.Distance(transform.position, target.transform.position);
-            if (distance <= transAttack)
-            {
-                state = State.Attack;
-                anim.SetTrigger("attack1");
-                Attack1();
-            }
-            else if (distance > transAttack)
+        if(IsAttackable())
+        {
+            agent.updatePosition = false;
+            agent.updateRotation = false;
+
+            state = State.Attack;
+            anim.SetTrigger("attack1");
+            Attack1();
+        }
+        else
+        {
+            if(!IsAttackablePosition())
             {
                 anim.SetTrigger("run");
                 agent.speed = moveSpeed;
                 agent.destination = target.transform.position;
             }
-        
+            else
+            {
+                transform.Rotate(Vector3.up, GetRotationToDestination() * agent.angularSpeed * Time.deltaTime * 0.02f);
+            }
+        }
     }
+
+    private float GetRotationToDestination()
+    {
+        var forward = transform.forward;
+        var direction = (target.transform.position - transform.position);
+
+        forward.y = 0f;
+        direction.y = 0f;
+
+        forward.Normalize();
+        direction.Normalize();
+
+        var angleDiff = Quaternion.FromToRotation(forward, direction).eulerAngles.y;
+        if(angleDiff > 180)
+            angleDiff = angleDiff - 360f;
+
+        return angleDiff;
+    }
+
     private void UpdateAttack()
     {
         agent.speed = 0;
-        float distance = Vector3.Distance(transform.position, target.transform.position);
 
-        if (distance > transAttack)
+        if(!IsAttackable())
         {
             state = State.Tracking;
             anim.SetTrigger("run");
         }
-        else if (distance <= transAttack)
+        else
         {
+            agent.updatePosition = false;
+            agent.updateRotation = false;
 
             anim.SetTrigger("attack1");
             Attack1();
         }
     }
+
+    private bool IsAttackable()
+    {
+        return IsAttackablePosition() && IsAttackableRotation();
+    }
+
+    private bool IsAttackablePosition()
+    {
+        float distance = Vector3.Distance(transform.position, target.transform.position);
+
+        return distance <= transAttack;
+    }
+
+    private bool IsAttackableRotation()
+    {
+        var forward = transform.forward;
+        var direction = (target.transform.position - transform.position);
+
+        forward.y = 0f;
+        direction.y = 0f;
+        
+        forward.Normalize();
+        direction.Normalize();
+
+        var angleDiff = Quaternion.FromToRotation(forward, direction).eulerAngles.y;
+        if(angleDiff > 180)
+            angleDiff = angleDiff - 360f;
+
+        return Mathf.Abs(angleDiff) <= 10f;
+    }
+
     private void UpdateGetHit()
     {
 
@@ -177,6 +241,9 @@ public class MonsterTwo : MonoBehaviour
     private void UpdateDie()
     {
         anim.Play("Die");
+
+        OnBossDead?.Invoke(this);
+
         Transform stageClearTextTransform = Camera.main.transform.Find("UI/StageClear");
         Text _text = stageClearTextTransform.GetComponent<Text>();
         _text.gameObject.SetActive(true);
@@ -320,11 +387,14 @@ public class MonsterTwo : MonoBehaviour
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        //OnBossDead?.Invoke();
+
         OpenDoor();
         Destroy(agent.gameObject);
     }
     // 데미지를 입었을 때 호출되는 메서드
-    public void TakeDamage(float damageAmount)
+    public override void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
         if (currentHealth <= 0)

@@ -11,6 +11,8 @@ public class BackGroundMusic : MonoBehaviour
     public AudioClip backGroundMusic;
     public AudioSource backGroundMusicSource;
     public AudioClip bossMusic;
+    public AudioClip finalBossMusic;
+    public AudioClip endingMusic;
 
     private bool hasEntered = false;
     private bool isBossMusicPlaying = false;//보스 음악이 재생중인지 확인
@@ -48,11 +50,20 @@ public class BackGroundMusic : MonoBehaviour
         }
     }
 
-    public void PlayBossMusic()
+    public void PlayEndingMusic()
+    {
+        isBossMusicPlaying = false;
+
+        backGroundMusicSource.Stop();
+        backGroundMusicSource.clip = endingMusic;
+        backGroundMusicSource.Play();
+    }
+
+    public void PlayBossMusic(bool isFinalBoss = false)
     {
         isBossMusicPlaying = true;
         backGroundMusicSource.Stop(); // 기존 백그라운드 뮤직 정지
-        backGroundMusicSource.clip = bossMusic; // 보스 음악으로 클립 변경
+        backGroundMusicSource.clip = isFinalBoss ? finalBossMusic : bossMusic; // 보스 음악으로 클립 변경
         backGroundMusicSource.Play();
     }
     public void StopBossMusic()
