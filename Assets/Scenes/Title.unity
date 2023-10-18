@@ -883,7 +883,7 @@ RectTransform:
   m_GameObject: {fileID: 1637258766}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.180184, y: 1.180184, z: 1.0174}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 256953616}
@@ -914,7 +914,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3f659af020c66c04f87c86e59f3310bb, type: 3}
+    m_Font: {fileID: 12800000, guid: 69e95c52fbf1a8e4483cf6b7f71559ba, type: 3}
     m_FontSize: 300
     m_FontStyle: 0
     m_BestFit: 0
@@ -926,7 +926,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Find A Cat
+  m_Text: RISE
 --- !u!222 &1637258769
 CanvasRenderer:
   m_ObjectHideFlags: 0

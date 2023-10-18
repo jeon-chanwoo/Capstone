@@ -41,11 +41,11 @@ namespace Suntail
             //Black screen timer
             if (screenTimerIsActive) 
             {
-                blackScreenDuration -= Time.deltaTime; //까만화면+제목 4초동안 먼저보임
+                blackScreenDuration -= Time.deltaTime; 
                 if (blackScreenDuration < 0)
                 {
                     screenTimerIsActive = false;
-                    blackScreenImage.CrossFadeAlpha(0, fadingDuration, false);//각화면은 3초동안 천천히 사라짐 총7초
+                    blackScreenImage.CrossFadeAlpha(0, fadingDuration, false);//
                     blackScreenText1.CrossFadeAlpha(0, fadingDuration, false);
                     blackScreenText2.CrossFadeAlpha(0, fadingDuration, false);
                     StartCoroutine(StartAudioFade(_audioMixer, "soundsVolume", fadingDuration, 1f));
@@ -53,7 +53,7 @@ namespace Suntail
             }
 
             //Hint text timer
-            if (hintTimerIsActive)//17-7=10초동안 보임
+            if (hintTimerIsActive)//17-7=10
             {
                 hintDuration -= Time.deltaTime;//
                 if(hintDuration < 9.0f && isHintText1)
