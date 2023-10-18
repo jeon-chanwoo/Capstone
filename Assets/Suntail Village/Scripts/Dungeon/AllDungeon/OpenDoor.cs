@@ -23,7 +23,7 @@ public class OpenDoor : MonoBehaviour
     private void Start()
     {
         backGroundMusic = FindObjectOfType<BackGroundMusic>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject;
         playerController = player.GetComponent<CharacterController>();
         stageStartPosition = new Vector3(2.5f, -8.5f, 85.0f);
     }

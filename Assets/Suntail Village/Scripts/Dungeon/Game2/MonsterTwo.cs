@@ -103,7 +103,7 @@ public class MonsterTwo : MonsterBase
     private void UpdateIdle()
     {
         agent.speed = moveSpeed;
-        target = GameObject.Find("Controller").transform;
+        target = GameObject.Find("Controller").transform.root;
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
         if(!IsAttackable())

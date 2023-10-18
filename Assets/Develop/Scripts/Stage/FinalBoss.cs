@@ -72,7 +72,7 @@ public class FinalBoss: MonsterBase
     {
         _currentHp = _maxHp;
 
-        _target = GameObject.FindGameObjectWithTag("Player");
+        _target = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject;
     }
 
     private void Update()

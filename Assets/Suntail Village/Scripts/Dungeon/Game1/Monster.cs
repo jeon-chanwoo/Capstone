@@ -89,7 +89,7 @@ public class Monster : MonsterBase
     private void UpdateIdle()
     {
         agent.speed = moveSpeed;
-        target = GameObject.Find("Controller").transform;
+        target = GameObject.Find("Controller").transform.root.transform;
 
         if(!IsAttackable())
         {

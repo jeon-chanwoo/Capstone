@@ -12,7 +12,7 @@ public class MiniGameThree : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject;
         characterController = player.GetComponent<CharacterController>();
         playerController = player.GetComponent<PlayerController>();
         stageStartPosition = new Vector3(2.8f, -4.0f, 68.7f);

@@ -29,7 +29,7 @@ public class MonsterThree : MonsterBase
         SetHealth(300.0f);
         agent = GetComponent<NavMeshAgent>();
         backGroundMusicScript = GameObject.Find("Controller Camera").GetComponent<BackGroundMusic>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject;
         playerController = player.GetComponent<PlayerController>();
         audioSource.clip = _magma;
         audioSource.Play();

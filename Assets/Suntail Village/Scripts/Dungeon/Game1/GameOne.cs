@@ -21,7 +21,7 @@ public class GameOne : MonoBehaviour
     private void Start()
     {
         _wall = GameObject.Find("MiniGame(Clone)/Game1/Base/Cube (3)");
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject;
         playerController = player.GetComponent<CharacterController>();
         gameOneStartPosition = new Vector3(2.8f, -4.0f, 62.8f);
     }
