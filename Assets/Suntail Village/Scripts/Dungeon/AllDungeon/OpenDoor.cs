@@ -26,6 +26,8 @@ public class OpenDoor : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject;
         playerController = player.GetComponent<CharacterController>();
         stageStartPosition = new Vector3(2.5f, -8.5f, 85.0f);
+        blackScreenText.gameObject.SetActive(true);//올라가는중
+        blackScreenText.CrossFadeAlpha(0, 0, false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,15 +36,14 @@ public class OpenDoor : MonoBehaviour
         {
             stageCount++;
             blackScreenImage.CrossFadeAlpha(1, 0, false);//다시보이게
-            blackScreenText.gameObject.SetActive(true);//올라가는중
+            blackScreenText.CrossFadeAlpha(1, 0, false);
             backGroundMusic.StartEnterMusic();
             StartCoroutine(TransitionAnimation());
             ForceMove();
-            if(otherObjectAnimator1 != null/* && otherObjectAnimator2 != null && otherObjectAnimator3 != null*/)
+            if(otherObjectAnimator1 != null)
             {
                 otherObjectAnimator1.SetTrigger("open");
-                //otherObjectAnimator2.SetTrigger("open");
-                //otherObjectAnimator3.SetTrigger("open");
+
             }
 
 
