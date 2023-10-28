@@ -64,7 +64,7 @@ public class BackGroundMusic : MonoBehaviour
         isBossMusicPlaying = true;
         backGroundMusicSource.Stop(); // 기존 백그라운드 뮤직 정지
         backGroundMusicSource.clip = isFinalBoss ? finalBossMusic : bossMusic; // 보스 음악으로 클립 변경
-        if(backGroundMusic.clip == finalBossMusic)
+        if(backGroundMusicSource.clip == finalBossMusic)
         {
             backGroundMusicSource.volume =  backGroundMusicSource.volume / 2.0f;
         }
