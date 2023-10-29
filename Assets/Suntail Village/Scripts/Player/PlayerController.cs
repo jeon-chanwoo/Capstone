@@ -851,7 +851,7 @@ namespace Suntail
             gameOverText.CrossFadeAlpha(0,1.0f,false);
             yield return new WaitForSeconds(2.0f);
             isGameOver = false;
-            SceneManager.LoadScene("GameStart");
+            SceneManager.LoadScene("Title");
         }
         #endregion
         #region move
