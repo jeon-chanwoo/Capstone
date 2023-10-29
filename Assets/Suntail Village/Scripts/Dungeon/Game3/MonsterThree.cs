@@ -60,7 +60,7 @@ public class MonsterThree : MonoBehaviour
         if (currentHealth > 0)
         {
             healthCount += Time.deltaTime;
-            if (playerController._hp >= 0.0f && healthCount > 1.0f)
+            if (playerController._hp >= 0.0f && healthCount > 0.5f)
             {
                 healthCount = 0.0f;
                 playerController._hp -= 1.0f;
