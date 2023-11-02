@@ -508,7 +508,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 3729}
+  m_SizeDelta: {x: 0, y: 4016}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &270879037
 MonoBehaviour:
@@ -648,6 +648,13 @@ MonoBehaviour:
 
 
 
+
+
+
+
+
+
+
     Speical
     thanks          '
 --- !u!222 &270879039
@@ -694,7 +701,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 3479}
+  m_SizeDelta: {x: 0, y: 3749}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &273367383
 MonoBehaviour:
@@ -743,9 +750,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSound
-    Editing\r             \n\uC804\uCC2C\uC6B0\r             \nBGM Composition\r            
-    \n\uC804\uCC2C\uC6B0\r             \n\n*              "
+  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSound
+    Editing\r             \n\uAE40\uC601\uB3C4, \uC804\uCC2C\uC6B0\r            
+    \nBGM Composition\r             \n\uAE40\uC601\uB3C4, \uC804\uCC2C\uC6B0\r, \uAE40\uC218\uBE48            
+    \n\n*              "
 --- !u!222 &273367385
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1715,7 +1723,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 3869}
+  m_SizeDelta: {x: 0, y: 4139}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &638218744
 MonoBehaviour:
@@ -1764,7 +1772,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\uC774\uC885\uC5F0
+  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\uC774\uC885\uC5F0
     \uAD50\uC218\uB2D8             \n\n\nThank you for playing!!!             "
 --- !u!222 &638218746
 CanvasRenderer:
@@ -1810,7 +1818,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 3659}
+  m_SizeDelta: {x: 0, y: 3959}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &660253874
 MonoBehaviour:
@@ -1859,8 +1867,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\uC804\uCC2C\uC6B0            
-    \n\n*              "
+  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\uC804\uCC2C\uC6B0,
+    \uAE40\uC218\uBE48, \uAE40\uC601\uB3C4             \n\n*              "
 --- !u!222 &660253876
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1905,7 +1913,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 3278}
+  m_SizeDelta: {x: 0, y: 3565}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &714977016
 MonoBehaviour:
@@ -1955,6 +1963,13 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '
+
+
+
+
+
+
+
 
 
 
@@ -2173,7 +2188,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 2879}
+  m_SizeDelta: {x: 0, y: 2999}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &798184410
 MonoBehaviour:
@@ -2222,11 +2237,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnvironment
-    Artist\r             \n\uC804\uCC2C\uC6B0 \r            \nAnimator\r            
-    \n\uC804\uCC2C\uC6B0\r             \nCharacter Concept Artist\r             \n\uC804\uCC2C\uC6B0\r            
-    \nVisual Effects Artist\r             \n\uC804\uCC2C\uC6B0\r             \nUser
-    Interfave Artist\r             \n\uC804\uCC2C\uC6B0\r             \n\n*              "
+  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDungeon
+    Stage Artist\r             \n\uC804\uCC2C\uC6B0             \nFinal Stage Artist            
+    \n\uAE40\uC601\uB3C4             \nCharactor Animator\r             \n\uC804\uCC2C\uC6B0\r            
+    \nCharacter Concept Artist\r             \n\uC804\uCC2C\uC6B0\r             \nVisual
+    Effects Artist\r             \n\uC804\uCC2C\uC6B0\r, \uAE40\uC218\uBE48            
+    \nUser Interfave Artist\r             \n\uC804\uCC2C\uC6B0\r             \n\n*              "
 --- !u!222 &798184412
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5397,7 +5413,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 2399}
+  m_SizeDelta: {x: 0, y: 2459}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896720542
 MonoBehaviour:
@@ -5446,8 +5462,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nProgrammer
-    / Director\r             \n\uC804\uCC2C\uC6B0\r             \n    \n*\r              "
+  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDirector\r            
+    \n\uC804\uCC2C\uC6B0\r             \nProgrammer             \n\uC804\uCC2C\uC6B0,
+    \uAE40\uC601\uB3C4, \uAE40\uC218\uBE48             \n    \n*\r              "
 --- !u!222 &896720544
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5982,7 +5999,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 3179}
+  m_SizeDelta: {x: 0, y: 3479}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1490073659
 MonoBehaviour:
@@ -6031,9 +6048,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSystem
-    Designer\r             \n\uC804\uCC2C\uC6B0\r             \nConcept Designer\r            
-    \n\uC804\uCC2C\uC6B0             \n\n*              "
+  m_Text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nConcept
+    Design\rer             \n\uAE40\uC601\uB3C4, \uC804\uCC2C\uC6B0, \uAE40\uC218\uBE48            
+    \nMini Game Designer             \n\uC804\uCC2C\uC6B0             \nBoss Monster
+    Designer             \n\uAE40\uC601\uB3C4, \uC804\uCC2C\uC6B0, \uAE40\uC218\uBE48            
+    \nUI Designer\r             \n\uC804\uCC2C\uC6B0\r             \nConcept Design\rer            
+    \n\uAE40\uC601\uB3C4, \uC804\uCC2C\uC6B0, \uAE40\uC218\uBE48             \n\n*              "
 --- !u!222 &1490073661
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6595,7 +6615,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 2991}
+  m_SizeDelta: {x: 0, y: 3114}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1696131017
 MonoBehaviour:
@@ -6717,6 +6737,9 @@ MonoBehaviour:
 
 
 
+
+
+
     DESIGN          '
 --- !u!222 &1696131019
 CanvasRenderer:
@@ -6762,7 +6785,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 3565}
+  m_SizeDelta: {x: 0, y: 3852}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1698367943
 MonoBehaviour:
@@ -6898,6 +6921,13 @@ MonoBehaviour:
 
 
 
+
+
+
+
+
+
+
     QA          '
 --- !u!222 &1698367945
 CanvasRenderer:
@@ -6943,7 +6973,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 2499}
+  m_SizeDelta: {x: 0, y: 2581}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1757323972
 MonoBehaviour:
@@ -6993,6 +7023,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '
+
+
 
 
 
